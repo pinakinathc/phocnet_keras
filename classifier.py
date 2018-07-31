@@ -26,7 +26,7 @@ from load_data import load_data
 #from spp.SpatialPyramidPooling import SpatialPyramidPooling
 def create_model():
 	model = Sequential()
-	model.add(Conv2D(64, (3, 3), padding='same', activation='relu' input_shape=(28, 28, 1)))
+	model.add(Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(28, 28, 1)))
 	#model.add(LeakyReLU(alpha=0.3))
 	model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
 	#model.add(LeakyReLU(alpha=0.3))
