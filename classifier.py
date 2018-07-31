@@ -88,11 +88,6 @@ def evaluate(model, x_test, y_test):
 
 x_train, y_train, x_test, y_test = load_data()
 
-x_train = x_train[:10000]
-y_train = y_train[:10000]
-x_test = x_test[10000:12000]
-y_test = y_test[10000:12000]
-
 model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
 for i in range(1000):

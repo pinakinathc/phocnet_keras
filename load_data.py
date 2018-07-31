@@ -19,7 +19,8 @@ XML_DIR = 'datasets/xml/'
 
 def load_data():
 	xml_files = glob(XML_DIR+'*.xml')
-
+	xml_files = xml_files[:10000]
+	
 	x_train = []
 	y_train = []
 	x_test = []
