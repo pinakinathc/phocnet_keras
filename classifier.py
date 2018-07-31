@@ -17,7 +17,7 @@ from load_data import load_data
 #from spp.SpatialPyramidPooling import SpatialPyramidPooling
 def create_model():
 	model = Sequential()
-	model.add(Conv2D(64, (3, 3), padding='same', input_shape=(None, None, 1)))
+	model.add(Conv2D(64, (3, 3), padding='same', input_shape=(28, 28, 1)))
 	model.add(LeakyReLU(alpha=0.3))
 	model.add(Conv2D(64, (3, 3), padding='same'))
 	model.add(LeakyReLU(alpha=0.3))
@@ -49,7 +49,7 @@ def create_model():
 
 	return model
 
-def train(model=None, x_train, y_train):
+def train(x_train, y_train, model=None):
 	if model == None:
 		model = create_model()
 
@@ -87,5 +87,5 @@ y_test = y_test[10000:12000]
 model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
 for i in range(1000):
-	model = train(x_train, y_train)
+	model = train(x_train, y_train, model=model)
 	evaluate(model, x_test, y_test)

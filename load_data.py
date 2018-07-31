@@ -14,8 +14,8 @@ from create_phoc_label import generate_label
 
 # Change the below code
 # Enter the directory of your word image and their xml files
-WORD_IMAGE_DIR = '../../database/www.fki.inf.unibe.ch/DBs/iamDB/data/words/'
-XML_DIR = '../../database/www.fki.inf.unibe.ch/DBs/iamDB/data/xml/'
+WORD_IMAGE_DIR = 'datasets/words/'
+XML_DIR = 'datasets/xml/'
 
 def load_data():
 	xml_files = glob(XML_DIR+'*.xml')
