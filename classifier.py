@@ -4,6 +4,15 @@ Reference: https://arxiv.org/abs/1604.00187
 
 Author: Pinaki Nath Chowdhury <pinakinathc@gmail.com>
 '''
+
+# The below code ensures that GPU memory is dynamically allocated
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto()
+config.gpu_config.allow_growth = True
+sess = tf.Session(config=config)
+set_session(sess)
+
 import keras
 from keras.models import Sequential
 from keras.layers import (Conv2D, MaxPooling2D, Dense, Dropout, Flatten,
