@@ -90,6 +90,7 @@ def train(x_train, y_train, model=None, epochs=JUMP):
 						callbacks=[model_ckpt_1, model_ckpt_2, tnsbrd],
 						epochs=index+1,
 						initial_epoch=index)
+	model.save_weights('saved_models/phoc_last_weight_manual.hdf5')
 	return model
 
 def evaluate(model, x_test, y_test):

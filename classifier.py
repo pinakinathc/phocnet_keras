@@ -12,6 +12,7 @@ Author: Pinaki Nath Chowdhury <pinakinathc@gmail.com>
 # config.gpu_config.allow_growth = True
 # sess = tf.Session(config=config)
 # set_session(sess)
+# from keras.utils import multi_gpu_model
 
 import keras
 from keras.models import Sequential
@@ -67,6 +68,8 @@ def train(x_train, y_train, model=None, initial_epoch=0):
 	if model == None:
 		model = create_model()
 
+		# model = multi_gpu_model(model, gpus=3)
+		
 		loss = losses.categorical_crossentropy
 		optimizer = SGD(lr=1e-4, momentum=.9, decay=5e-5)
 		model.compile(loss=loss, optimizer=optimizer)

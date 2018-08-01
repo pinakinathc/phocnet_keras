@@ -56,7 +56,5 @@ def load_data():
 	y_train = np.array(y[:N])
 	x_test = np.array(x[N:])
 	y_test = np.array(y[N:])
-	print ("Length: ", N)
-	print ("Train length: ", len(x_train))
 
 	return x_train, y_train, x_test, y_test
