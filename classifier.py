@@ -25,6 +25,8 @@ from load_data import load_data
 from evaluate_accuracy import accuracy
 
 #from spp.SpatialPyramidPooling import SpatialPyramidPooling
+JUMP = 5
+
 def create_model():
 	model = Sequential()
 	model.add(Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(28, 28, 1)))
@@ -59,7 +61,9 @@ def create_model():
 
 	return model
 
-def train(x_train, y_train, model=None):
+def train(x_train, y_train, model=None, initial_epoch=0):
+	global JUMP
+
 	if model == None:
 		model = create_model()
 
@@ -83,7 +87,8 @@ def train(x_train, y_train, model=None):
 				y_train,
 				batch_size=10,
 				callbacks=[model_ckpt_1, model_ckpt_2, tnsbrd],
-				epochs=10)
+				epochs=initial_epoch+JUMP,
+				initial_epoch=initial_epoch)
 	return model
 
 def evaluate(model, x_test, y_test):
@@ -98,7 +103,7 @@ x_train, y_train, x_test, y_test = load_data()
 model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
 accuracy(model, x_test, y_test)
-for i in range(1000):
+for i in range(0, 1000, JUMP):
 	model = train(x_train, y_train, model=model)
 	evaluate(model, x_test, y_test)
 	accuracy(model, x_test, y_test)

@@ -25,6 +25,8 @@ import numpy as np
 from load_data_not_resize import load_data
 from evaluate_accuracy import accuracy
 
+JUMP = 5
+
 def create_model():
 	model = Sequential()
 	model.add(Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(None, None, 1)))
@@ -59,7 +61,7 @@ def create_model():
 
 	return model
 
-def train(x_train, y_train, model=None, epochs=3):
+def train(x_train, y_train, model=None, epochs=JUMP):
 	if model == None:
 		model = create_model()
 
@@ -102,7 +104,7 @@ x_train, y_train, x_test, y_test = load_data()
 model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
 accuracy(model, x_test, y_test)
-for i in range(1000):
-	model = train(x_train, y_train, model=model)
+for i in range(0, 1000, JUMP):
+	model = train(x_train, y_train, model=model, epochs=JUMP)
 	evaluate(model, x_test, y_test)
 	accuracy(model, x_test, y_test)
