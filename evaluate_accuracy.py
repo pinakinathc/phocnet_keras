@@ -18,7 +18,6 @@ def accuracy(model, x_test, y_test):
 		x_test = np.array(x)
 		y_test = np.array(y)
 	y_pred = model.predict(x_test)
-	y_pred = np.where(y_pred >= 0.5, 1, 0) # Convert it into a binary vector
 
 	N = len(x_test)
 	correct = 0
