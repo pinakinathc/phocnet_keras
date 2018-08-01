@@ -22,7 +22,8 @@ from keras import losses
 from keras.callbacks import ModelCheckpoint, TensorBoard
 from spp.SpatialPyramidPooling import SpatialPyramidPooling
 import numpy as np
-from load_data import load_data
+from load_data_not_resize import load_data
+from evaluate_accuracy import accuracy
 
 def create_model():
 	model = Sequential()
@@ -100,6 +101,8 @@ x_train, y_train, x_test, y_test = load_data()
 
 model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
+accuracy(model, x_test, y_test)
 for i in range(1000):
 	model = train(x_train, y_train, model=model)
 	evaluate(model, x_test, y_test)
+	accuracy(model, x_test, y_test)
