@@ -39,7 +39,7 @@ def load_data():
 		for word in root.iter('word'):
 			img = cv2.imread(image_dir+word.get('id')+'.png', 0)
 			try:
-				img = cv2.resize(img, (28, 28))
+				tmp = cv2.resize(img, (28, 28))
 				img = img[:, :, np.newaxis]
 			except:
 				continue

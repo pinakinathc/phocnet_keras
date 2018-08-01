@@ -6,12 +6,12 @@ Author: Pinaki Nath Chowdhury <pinakinathc@gmail.com>
 '''
 
 # The below code ensures that GPU memory is dynamically allocated
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-config = tf.ConfigProto()
-config.gpu_config.allow_growth = True
-sess = tf.Session(config=config)
-set_session(sess)
+# import tensorflow as tf
+# from keras.backend.tensorflow_backend import set_session
+# config = tf.ConfigProto()
+# config.gpu_config.allow_growth = True
+# sess = tf.Session(config=config)
+# set_session(sess)
 
 import keras
 from keras.models import Sequential
@@ -66,16 +66,22 @@ def train(x_train, y_train, model=None):
 		optimizer = SGD(lr=1e-4, momentum=.9, decay=5e-5)
 		model.compile(loss=loss, optimizer=optimizer)
 
-		model_ckpt = ModelCheckpoint(
-									'saved_models/weights.hdf5',
-									period=5)
+		model_ckpt_1 = ModelCheckpoint(
+									'saved_models/weights_last.hdf5',
+									period=5,
+									save_weights_only=True)
+		model_ckpt_2 = ModelCheckpoint(
+						'saved_models/weights_best.hdf5',
+						save_best_only=True,
+						period=5,
+						save_weights_only=True)
 
 		tnsbrd = TensorBoard(log_dir='./logs')
 
 	model.fit(x_train, 
 				y_train,
 				batch_size=10,
-				callbacks=[model_ckpt, tnsbrd],
+				callbacks=[model_ckpt_1, model_ckpt_2, tnsbrd],
 				epochs=10)
 	return model
 
