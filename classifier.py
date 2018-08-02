@@ -115,6 +115,7 @@ def accuracy(model, x_test, y_test):
 
 	accuracy = correct*100.0/N
 	print ("The accuracy is : ", accuracy)
+	hello
 
 x_train, y_train, x_test, y_test = load_data()
 
