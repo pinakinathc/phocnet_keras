@@ -58,7 +58,7 @@ def create_model():
 
 	return model
 
-def train(x_train, y_train, model=None):
+def train(x_train, y_train, model=None, initial_epoch):
 	if model == None:
 		model = create_model()
 
@@ -67,8 +67,12 @@ def train(x_train, y_train, model=None):
 		model.compile(loss=loss, optimizer=optimizer)
 
 		model_ckpt = ModelCheckpoint(
-									'saved_models/weights.hdf5',
-									period=5)
+									'saved_models/weights_best.hdf5',
+									period=1,
+									save_best_only=True)
+		model.ckpt = ModelCheckpoint(
+			'saved_models/weights_last.hdf5',
+			period=1)
 
 		tnsbrd = TensorBoard(log_dir='./logs')
 
@@ -76,7 +80,8 @@ def train(x_train, y_train, model=None):
 				y_train,
 				batch_size=10,
 				callbacks=[model_ckpt, tnsbrd],
-				epochs=10)
+				epochs=10,
+				initial_epoch=initial_epoch)
 	return model
 
 def evaluate(model, x_test, y_test):
@@ -86,10 +91,37 @@ def evaluate(model, x_test, y_test):
 	print ("If this model is giving total random value, then it's value\
 		should lie around 604000")
 
+def accuracy(model, x_test, y_test):
+	def l2(vec_1, vec_2):
+		return (((vec_1-vec_2)**2).sum())**0.5
+
+	correct = 0
+	if len(x_test) > 1000: # Because k-NN cannot process over 1e6 data
+		x_test = x_test[:1000]
+		y_test = y_test[:1000]
+
+	y_pred = model.predict(x_test)
+	
+	N = len(x_test)
+	for i in range(N):
+		min_dist = l2(y_pred[i], y_test[0])
+		for j in range(1, N):
+			dist = l2(y_pred[i], y_test[j])
+			if dist < min_dist:
+				min_dist = dist
+				index = j
+		if index == j:
+			correct += 1
+
+	accuracy = correct*100.0/N
+	print ("The accuracy is : ", accuracy)
+
 x_train, y_train, x_test, y_test = load_data()
 
 model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
+accuracy(model, x_test, y_test)
 for i in range(1000):
 	model = train(x_train, y_train, model=model)
 	evaluate(model, x_test, y_test)
+	accuracy(model, x_test, y_test)
