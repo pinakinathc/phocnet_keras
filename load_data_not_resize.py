@@ -39,7 +39,7 @@ def load_data():
 		for word in root.iter('word'):
 			img = cv2.imread(image_dir+word.get('id')+'.png', 0)
 			try:
-				img = cv2.resize(img, (28, 28))
+				tmp = cv2.resize(img, (28, 28))
 				img = img[:, :, np.newaxis]
 			except:
 				continue
@@ -51,7 +51,7 @@ def load_data():
 			x.append(img)
 			y.append(target)
 
-	N = int(len(x)*0.7)
+	N = int(len(x_train)*0.7)
 	x_train = np.array(x[:N])
 	y_train = np.array(y[:N])
 	x_test = np.array(x[N:])
