@@ -23,10 +23,10 @@ from keras.callbacks import ModelCheckpoint, TensorBoard
 import numpy as np
 from load_data import load_data
 
-#from spp.SpatialPyramidPooling import SpatialPyramidPooling
+from spp.SpatialPyramidPooling import SpatialPyramidPooling
 def create_model():
 	model = Sequential()
-	model.add(Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(28, 28, 1)))
+	model.add(Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(None, None, 1)))
 	#model.add(LeakyReLU(alpha=0.3))
 	model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
 	#model.add(LeakyReLU(alpha=0.3))
@@ -43,8 +43,8 @@ def create_model():
 	model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
 	model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
 	model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-	model.add(Flatten())
-#	model.add(SpatialPyramidPooling([1, 2, 4]))
+#	model.add(Flatten())
+	model.add(SpatialPyramidPooling([1, 2, 4]))
 	model.add(Dense(4096, activation='relu'))
 	#model.add(LeakyReLU(alpha=0.3))
 	model.add(Dropout(0.5))
@@ -58,7 +58,7 @@ def create_model():
 
 	return model
 
-def train(x_train, y_train, model=None, initial_epoch):
+def train(x_train, y_train, model=None, initial_epoch=0):
 	if model == None:
 		model = create_model()
 
@@ -80,7 +80,7 @@ def train(x_train, y_train, model=None, initial_epoch):
 				y_train,
 				batch_size=10,
 				callbacks=[model_ckpt, tnsbrd],
-				epochs=10,
+				epochs=initial_epoch+5,
 				initial_epoch=initial_epoch)
 	return model
 
@@ -115,7 +115,6 @@ def accuracy(model, x_test, y_test):
 
 	accuracy = correct*100.0/N
 	print ("The accuracy is : ", accuracy)
-	hello
 
 x_train, y_train, x_test, y_test = load_data()
 
@@ -123,6 +122,6 @@ model = train(x_train, y_train)
 evaluate(model, x_test, y_test)
 accuracy(model, x_test, y_test)
 for i in range(1000):
-	model = train(x_train, y_train, model=model)
+	model = train(x_train, y_train, model=model, initial_epoch=5)
 	evaluate(model, x_test, y_test)
 	accuracy(model, x_test, y_test)
