@@ -31,3 +31,13 @@ If you have a GPU but do not have multiple GPUs in your system, please comment l
 - phoc_classifier.py => line: 75
 
 I have not completed training, hence my model has an MAP of only 62% whereas the original paper claims to have map of 72.51%.
+
+## Reference
+```
+@inproceedings{Sudholt2017-EWS,
+   booktitle = {Proc. Int. Conf. on Document Analysis and Recognition},
+   author = {Sudholt, Sebastian and Fink, Gernot A.},
+   title = {{Evaluating Word String Embeddings and Loss Functions for CNN-based Word Spotting}},
+   year = {2017}
+}
+```
